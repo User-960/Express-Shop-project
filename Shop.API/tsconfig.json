@@ -8,7 +8,7 @@
 		"sourceMap": true,
 		"outDir": "dist",
 		"paths": {
-			"@Shared/*": ["./Shared/*"]
+			"@Shared/*": ["../Shared/*"]
 		}
 	},
 	"resolveJsonModule": true,
