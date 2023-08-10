@@ -1,4 +1,7 @@
 {
 	"ext": "ts,json",
-	"exec": "ts-node ./index.ts"
+	"exec": "ts-node ./index.ts",
+	"paths": {
+		"@Shared/*": ["Shared/*"]
+	}
 }
