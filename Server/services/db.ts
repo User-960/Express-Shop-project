@@ -2,7 +2,7 @@ import { Connection, createConnection } from 'mysql2/promise'
 
 import {
 	DATABASE,
-	HOST_DB,
+	LOCAL_HOST,
 	PASSWORD_DB,
 	PORT_DB,
 	USER_DB
@@ -13,7 +13,7 @@ export async function initDataBase(): Promise<Connection | null> {
 
 	try {
 		connection = await createConnection({
-			host: HOST_DB,
+			host: LOCAL_HOST,
 			port: PORT_DB,
 			user: USER_DB,
 			password: PASSWORD_DB,
