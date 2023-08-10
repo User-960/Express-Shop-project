@@ -1,21 +1,14 @@
 import { Request, Response, Router } from 'express'
+import asyncHandler from 'express-async-handler'
+import { ResultSetHeader } from 'mysql2'
+import { v4 as generateId } from 'uuid'
+
 import { connection } from '../../..'
-import {
-	ICommentEntity,
-	IProductEntity,
-	IProductImageEntity,
-	IProductSearchFilter,
-	ImagesRemovePayload,
-	ProductAddImagesPayload,
-	ProductCreatePayload
-} from '../../types/types'
 import {
 	mapCommentsEntity,
 	mapImagesEntity,
 	mapProductsEntity
 } from '../../services/mapping'
-import { throwServerError } from '../../utils/error/throwServerError'
-import asyncHandler from 'express-async-handler'
 import {
 	DELETE_IMAGES_QUERY,
 	GET_COMMENTS_QUERY,
@@ -25,10 +18,18 @@ import {
 	INSERT_PRODUCT_QUERY,
 	getProductsFilterQuery
 } from '../../services/queries'
+import {
+	ICommentEntity,
+	IProductEntity,
+	IProductImageEntity,
+	IProductSearchFilter,
+	ImagesRemovePayload,
+	ProductAddImagesPayload,
+	ProductCreatePayload
+} from '../../types/types'
 import { enhanceProductsComments } from '../../utils/enhanceProductsComments'
-import { v4 as generateId } from 'uuid'
-import { ResultSetHeader } from 'mysql2'
 import { enhanceProductsImages } from '../../utils/enhanceProductsImages'
+import { throwServerError } from '../../utils/error/throwServerError'
 
 export const productsRouter = Router()
 
@@ -52,6 +53,7 @@ productsRouter.route('/').get(
 			const withComments = enhanceProductsComments(products, commentRows)
 			const withImages = enhanceProductsImages(withComments, imageRows)
 
+			res.status(201)
 			res.send(withImages)
 		} catch (e) {
 			throwServerError(res, e)

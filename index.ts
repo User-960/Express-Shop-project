@@ -21,6 +21,8 @@ function initRouter() {
 	server.use('/api', shopApi)
 
 	server.use('/', (_, res) => {
+		res.status(200)
+		res.setHeader('Content-Type', 'text/html; charset=utf-8')
 		res.send('React App')
 	})
 }

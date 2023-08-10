@@ -1,5 +1,6 @@
-import { NODE_ENV } from '@Shared/config/app.constants'
 import { NextFunction, Request, Response } from 'express'
+
+import { NODE_ENV } from '../../../Shared/config/app.constants'
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
 	const error = new Error(`Not found - ${req.originalUrl}`)

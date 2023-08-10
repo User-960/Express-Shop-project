@@ -1,7 +1,8 @@
-import { NODE_ENV, PORT_SERVER } from '@Shared/config/app.constants'
 import 'colors'
 import express, { Express } from 'express'
 import morgan from 'morgan'
+
+import { NODE_ENV, PORT_SERVER } from '../../Shared/config/app.constants'
 
 export function initServer(): Express {
 	const app = express()

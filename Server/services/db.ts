@@ -1,11 +1,12 @@
+import { Connection, createConnection } from 'mysql2/promise'
+
 import {
 	DATABASE,
 	HOST_DB,
 	PASSWORD_DB,
 	PORT_DB,
 	USER_DB
-} from '@Shared/config/app.constants'
-import { Connection, createConnection } from 'mysql2/promise'
+} from '../../Shared/config/app.constants'
 
 export async function initDataBase(): Promise<Connection | null> {
 	let connection: Connection | null = null
