@@ -5,3 +5,15 @@ body {
 .container {
 	padding: 20px 40px;
 }
+
+.header {
+	padding: 20px 40px;
+	border-bottom: 1px solid #00b1ffff;
+}
+
+.logo {
+	width: 100px;
+	height: 100px;
+	background: url('../img/logo.png');
+	background-size: 100px 100px;
+}
