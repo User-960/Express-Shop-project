@@ -1,4 +1,5 @@
 import express, { Express } from 'express'
+import layouts from 'express-ejs-layouts'
 
 import { productsRouter } from './controllers/products.controller'
 
@@ -8,6 +9,8 @@ export default function (): Express {
 
 	app.set('view engine', 'ejs')
 	app.set('views', 'Shop.Admin/views')
+
+	app.use(layouts)
 
 	app.use('/', productsRouter)
 
