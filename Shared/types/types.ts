@@ -23,3 +23,10 @@ export interface IProductImage {
 	main: boolean
 	url: string
 }
+
+export interface IProductFilterPayload {
+	title?: string
+	description?: string
+	priceFrom?: number
+	priceTo?: number
+}

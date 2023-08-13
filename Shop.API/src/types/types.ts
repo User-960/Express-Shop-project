@@ -1,12 +1,12 @@
-import { IComment, IProduct, IProductImage } from '@Shared/types/types'
+import {
+	IComment,
+	IProduct,
+	IProductFilterPayload,
+	IProductImage
+} from '@Shared/types/types'
 import { RowDataPacket } from 'mysql2/index'
 
-export interface IProductSearchFilter {
-	title?: string
-	description?: string
-	priceFrom?: number
-	priceTo?: number
-}
+export interface IProductSearchFilter extends IProductFilterPayload {}
 
 export interface IProductEntity extends IProduct, RowDataPacket {
 	product_id: string
