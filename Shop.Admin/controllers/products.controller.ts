@@ -12,8 +12,10 @@ const throwServerError = (res: Response, e: Error) => {
 
 productsRouter.get('/', async (req: Request, res: Response) => {
 	try {
-		await getProducts()
-		res.send('Products page')
+		const products = await getProducts()
+		res.render('products', {
+			items: products
+		})
 	} catch (e) {
 		throwServerError(res, e)
 	}

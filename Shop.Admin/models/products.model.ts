@@ -2,14 +2,14 @@ import axios from 'axios'
 
 import {
 	API_PATH,
-	LOCAL_HOST,
-	PORT_SERVER
+	LOCAL_PATH,
+	LOCAL_PORT
 } from '../../Shared/config/app.constants'
 import { IProduct } from '../../Shared/types/types'
 
-const host = `http://${LOCAL_HOST}:${PORT_SERVER}/${API_PATH}`
+const host = `http://${LOCAL_PATH}:${LOCAL_PORT}/${API_PATH}`
 
-export async function getProducts() {
+export async function getProducts(): Promise<IProduct[]> {
 	const { data } = await axios.get<IProduct[]>(`${host}/products`)
-	console.log(data.length)
+	return data || []
 }
