@@ -12,6 +12,8 @@ export default function (): Express {
 
 	app.use(layouts)
 
+	app.use(express.static(__dirname + '/public'))
+
 	app.use('/', productsRouter)
 
 	return app
