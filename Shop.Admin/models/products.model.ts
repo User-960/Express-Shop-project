@@ -1,11 +1,11 @@
+import { IProduct } from '@Shared/types/types'
 import axios from 'axios'
 
 import {
 	API_PATH,
 	LOCAL_PATH,
 	LOCAL_PORT
-} from '../../Shared/config/app.constants'
-import { IProduct } from '../../Shared/types/types'
+} from '../../Shared/config/app-constants'
 
 const host = `http://${LOCAL_PATH}:${LOCAL_PORT}/${API_PATH}`
 
