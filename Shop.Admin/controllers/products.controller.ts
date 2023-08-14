@@ -1,7 +1,11 @@
 import { IProductFilterPayload } from '@Shared/types/types'
 import { Request, Response, Router } from 'express'
 
-import { getProducts, searchProducts } from '../models/products.model'
+import {
+	getProduct,
+	getProducts,
+	searchProducts
+} from '../models/products.model'
 
 export const productsRouter = Router()
 
@@ -32,6 +36,27 @@ productsRouter.get(
 				items: products,
 				queryParams: req.query
 			})
+		} catch (e) {
+			throwServerError(res, e)
+		}
+	}
+)
+
+productsRouter.get(
+	'/:id',
+	async (req: Request<{ id: string }>, res: Response) => {
+		try {
+			const product = await getProduct(req.params.id)
+
+			if (product) {
+				res.render('product/product', {
+					item: product
+				})
+			} else {
+				res.render('product/empty-product', {
+					id: req.params.id
+				})
+			}
 		} catch (e) {
 			throwServerError(res, e)
 		}
