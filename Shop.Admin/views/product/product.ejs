@@ -42,5 +42,11 @@
 		<% item.comments.forEach(function(comment) { %> <%-
 		include('product-comment', { comment: comment }) %> <% }); %>
 	</div>
+	<% } %> <% if (item.images?.length) { %>
+	<h2>Images</h2>
+	<div class="product-edit-images">
+		<% item.images.forEach(function(image) { %> <%- include('product-image', {
+		image: image }) %> <% }); %>
+	</div>
 	<% } %>
 </form>
