@@ -1,9 +1,11 @@
+import { ADMIN_PATH } from '@Shared/config/app-constants'
 import { IProductFilterPayload } from '@Shared/types/types'
 import { Request, Response, Router } from 'express'
 
 import {
 	getProduct,
 	getProducts,
+	removeProduct,
 	searchProducts
 } from '../models/products.model'
 
@@ -57,6 +59,18 @@ productsRouter.get(
 					id: req.params.id
 				})
 			}
+		} catch (e) {
+			throwServerError(res, e)
+		}
+	}
+)
+
+productsRouter.get(
+	'/remove-product/:id',
+	async (req: Request<{ id: string }>, res: Response) => {
+		try {
+			await removeProduct(req.params.id)
+			res.redirect(`/${ADMIN_PATH}`)
 		} catch (e) {
 			throwServerError(res, e)
 		}

@@ -31,3 +31,7 @@ export async function getProduct(id: string): Promise<IProduct | null> {
 		return null
 	}
 }
+
+export async function removeProduct(id: string): Promise<void> {
+	await axios.delete(`${host}/products/${id}`)
+}
