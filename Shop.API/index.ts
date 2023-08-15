@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
 import { Connection } from 'mysql2/promise'
 
+import { authRouter } from './src/api/auth/auth-api'
 import { commentsRouter } from './src/api/comments/comments-api'
 import { productsRouter } from './src/api/products/products-api'
 import { errorHandler, notFound } from './src/middleware/error.middleware'
@@ -15,6 +16,7 @@ export default function (dbConnection: Connection): Express {
 
 	app.use('/comments', commentsRouter)
 	app.use('/products', productsRouter)
+	app.use('/auth', authRouter)
 
 	app.use(notFound)
 	app.use(errorHandler)
