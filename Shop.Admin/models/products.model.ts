@@ -1,12 +1,6 @@
 import { IProduct, IProductFilterPayload } from '@Shared/types/types'
 import axios from 'axios'
 
-import {
-	API_PATH,
-	LOCAL_PATH,
-	LOCAL_PORT
-} from '../../Shared/config/app-constants'
-
 import { API_HOST } from '../constants/constants'
 import { IProductEditData } from '../types/types'
 
