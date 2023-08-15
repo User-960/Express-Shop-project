@@ -16,6 +16,8 @@ import {
 	GET_PRODUCTS_QUERY,
 	INSERT_PRODUCT_IMAGES_QUERY,
 	INSERT_PRODUCT_QUERY,
+	REPLACE_PRODUCT_THUMBNAIL,
+	UPDATE_PRODUCT_FIELDS,
 	getProductsFilterQuery
 } from '../../services/queries'
 import {
@@ -285,4 +287,103 @@ productsRouter.route('/:id').delete(
 			throwServerError(res, e)
 		}
 	})
+)
+
+productsRouter.post(
+	'/update-thumbnail/:id',
+	async (
+		req: Request<{ id: string }, {}, { newThumbnailId: string }>,
+		res: Response
+	) => {
+		try {
+			const [currentThumbnailRows] = await connection.query<
+				IProductImageEntity[]
+			>('SELECT * FROM images WHERE product_id=? AND main=?', [
+				req.params.id,
+				1
+			])
+
+			if (!currentThumbnailRows?.length || currentThumbnailRows.length > 1) {
+				res.status(400)
+				res.send('Incorrect product id')
+				return
+			}
+
+			const [newThumbnailRows] = await connection.query<IProductImageEntity[]>(
+				'SELECT * FROM images WHERE product_id=? AND image_id=?',
+				[req.params.id, req.body.newThumbnailId]
+			)
+
+			if (newThumbnailRows?.length !== 1) {
+				res.status(400)
+				res.send('Incorrect new thumbnail id')
+				return
+			}
+
+			const currentThumbnailId = currentThumbnailRows[0].image_id
+			const [info] = await connection.query<ResultSetHeader>(
+				REPLACE_PRODUCT_THUMBNAIL,
+				[
+					currentThumbnailId,
+					req.body.newThumbnailId,
+					currentThumbnailId,
+					req.body.newThumbnailId
+				]
+			)
+
+			if (info.affectedRows === 0) {
+				res.status(404)
+				res.send('No one image has been updated')
+				return
+			}
+
+			res.status(200)
+			res.send('New product thumbnail has been set!')
+		} catch (e) {
+			throwServerError(res, e)
+		}
+	}
+)
+
+productsRouter.patch(
+	'/:id',
+	async (
+		req: Request<{ id: string }, {}, ProductCreatePayload>,
+		res: Response
+	) => {
+		try {
+			const { id } = req.params
+
+			const [rows] = await connection.query<IProductEntity[]>(
+				'SELECT * FROM products WHERE product_id = ?',
+				[id]
+			)
+
+			if (!rows?.[0]) {
+				res.status(404)
+				res.send(`Product with id ${id} is not found`)
+				return
+			}
+
+			const currentProduct = rows[0]
+
+			await connection.query<ResultSetHeader>(UPDATE_PRODUCT_FIELDS, [
+				req.body.hasOwnProperty('title')
+					? req.body.title
+					: currentProduct.title,
+				req.body.hasOwnProperty('description')
+					? req.body.description
+					: currentProduct.description,
+				req.body.hasOwnProperty('price')
+					? req.body.price
+					: currentProduct.price,
+				id
+			])
+
+			res.status(200)
+			res.send(`Product id:${id} has been added!`)
+		} catch (e) {
+			throwServerError(res, e)
+		}
+	}
 )
