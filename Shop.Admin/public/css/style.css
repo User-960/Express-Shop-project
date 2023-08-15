@@ -1,5 +1,8 @@
 body {
 	background-color: #f1f1f1;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 .container {
@@ -24,6 +27,9 @@ body {
 	grid-row-gap: 40px;
 }
 
+/*
+product item
+ */
 .product-item {
 	display: flex;
 }
@@ -52,6 +58,9 @@ body {
 	font-weight: 600;
 }
 
+/*
+product search
+ */
 .products-search-form {
 	margin-bottom: 40px;
 }
@@ -67,6 +76,9 @@ body {
 	margin-bottom: 5px;
 }
 
+/*
+product edit
+ */
 .product-edit-fields {
 	width: 50%;
 }
@@ -85,6 +97,9 @@ body {
 	margin-bottom: 5px;
 }
 
+/*
+product comments
+ */
 .product-edit-comments .product-comment {
 	margin-bottom: 20px;
 }
@@ -99,6 +114,9 @@ body {
 	text-align: right;
 }
 
+/*
+product images
+ */
 .product-edit-images {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
