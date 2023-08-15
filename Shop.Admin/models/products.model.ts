@@ -7,19 +7,18 @@ import {
 	LOCAL_PORT
 } from '../../Shared/config/app-constants'
 
+import { API_HOST } from '../constants/constants'
 import { IProductEditData } from '../types/types'
 
-const host = `http://${LOCAL_PATH}:${LOCAL_PORT}/${API_PATH}`
-
 export async function getProducts(): Promise<IProduct[]> {
-	const { data } = await axios.get<IProduct[]>(`${host}/products`)
+	const { data } = await axios.get<IProduct[]>(`${API_HOST}/products`)
 	return data || []
 }
 
 export async function searchProducts(
 	filter: IProductFilterPayload
 ): Promise<IProduct[]> {
-	const { data } = await axios.get<IProduct[]>(`${host}/products/search`, {
+	const { data } = await axios.get<IProduct[]>(`${API_HOST}/products/search`, {
 		params: filter
 	})
 	return data || []
@@ -27,7 +26,7 @@ export async function searchProducts(
 
 export async function getProduct(id: string): Promise<IProduct | null> {
 	try {
-		const { data } = await axios.get<IProduct>(`${host}/products/${id}`)
+		const { data } = await axios.get<IProduct>(`${API_HOST}/products/${id}`)
 		return data
 	} catch (e) {
 		return null
@@ -35,7 +34,7 @@ export async function getProduct(id: string): Promise<IProduct | null> {
 }
 
 export async function removeProduct(id: string): Promise<void> {
-	await axios.delete(`${host}/products/${id}`)
+	await axios.delete(`${API_HOST}/products/${id}`)
 }
 
 function splitNewImages(str = ''): string[] {
@@ -56,7 +55,7 @@ export async function updateProduct(
 ): Promise<void> {
 	try {
 		const { data: currentProduct } = await axios.get<IProduct>(
-			`${host}/products/${productId}`
+			`${API_HOST}/products/${productId}`
 		)
 
 		if (formData.commentsToRemove) {
@@ -64,7 +63,7 @@ export async function updateProduct(
 
 			const getDeleteCommentActions = () =>
 				commentsIdsToRemove.map(commentId => {
-					return axios.delete(`${host}/comments/${commentId}`)
+					return axios.delete(`${API_HOST}/comments/${commentId}`)
 				})
 
 			await Promise.all(getDeleteCommentActions())
@@ -72,7 +71,7 @@ export async function updateProduct(
 
 		if (formData.imagesToRemove) {
 			const imagesIdsToRemove = compileIdsToRemove(formData.imagesToRemove)
-			await axios.post(`${host}/products/remove-images`, imagesIdsToRemove)
+			await axios.post(`${API_HOST}/products/remove-images`, imagesIdsToRemove)
 		}
 
 		if (formData.newImages) {
@@ -84,19 +83,19 @@ export async function updateProduct(
 				images[0].main = true
 			}
 
-			await axios.post(`${host}/products/add-images`, { productId, images })
+			await axios.post(`${API_HOST}/products/add-images`, { productId, images })
 		}
 
 		if (
 			formData.mainImage &&
 			formData.mainImage !== currentProduct.thumbnail?.id
 		) {
-			await axios.post(`${host}/products/update-thumbnail/${productId}`, {
+			await axios.post(`${API_HOST}/products/update-thumbnail/${productId}`, {
 				newThumbnailId: formData.mainImage
 			})
 		}
 
-		await axios.patch(`${host}/products/${productId}`, {
+		await axios.patch(`${API_HOST}/products/${productId}`, {
 			title: formData.title,
 			description: formData.description,
 			price: Number(formData.price)
