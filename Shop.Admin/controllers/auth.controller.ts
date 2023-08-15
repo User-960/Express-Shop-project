@@ -1,6 +1,8 @@
 import { IAuthRequisites } from '@Shared/types/types'
 import { Request, Response, Router } from 'express'
 
+import { verifyRequisites } from '../models/auth.model'
+
 import { throwServerError } from './helper'
 
 export const authRouter = Router()
@@ -17,8 +19,13 @@ authRouter.post(
 	'/authenticate',
 	async (req: Request<{}, {}, IAuthRequisites>, res: Response) => {
 		try {
-			console.log(req.body)
-			res.send('OK')
+			const verified = await verifyRequisites(req.body)
+
+			if (verified) {
+				res.redirect(`/${process.env.ADMIN_PATH}`)
+			} else {
+				res.redirect(`/${process.env.ADMIN_PATH}/auth/login`)
+			}
 		} catch (e) {
 			throwServerError(res, e)
 		}
