@@ -1,6 +1,7 @@
-import { ADMIN_PATH } from '@Shared/config/app-constants'
 import { IProductFilterPayload } from '@Shared/types/types'
 import { Request, Response, Router } from 'express'
+
+import { ADMIN_PATH } from '../../Shared/config/app-constants'
 
 import {
 	getProduct,
@@ -74,5 +75,18 @@ productsRouter.get(
 		} catch (e) {
 			throwServerError(res, e)
 		}
+	}
+)
+
+productsRouter.post(
+	'/save/:id',
+	async (
+		req: Request<{ id: string }, {}, { title: string }>,
+		res: Response
+	) => {
+		console.log(req.headers['content-type'])
+		console.log(req.params.id)
+		console.log(req.body.title)
+		res.send('OK')
 	}
 )
