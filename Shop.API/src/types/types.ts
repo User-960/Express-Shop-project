@@ -1,4 +1,5 @@
 import {
+	IAuthRequisites,
 	IComment,
 	IProduct,
 	IProductFilterPayload,
@@ -44,3 +45,7 @@ export interface ProductAddImagesPayload {
 }
 
 export type ImagesRemovePayload = string[]
+
+export interface IUserRequisitesEntity extends IAuthRequisites, RowDataPacket {
+	id: number
+}
