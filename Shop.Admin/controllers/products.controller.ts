@@ -9,6 +9,7 @@ import {
 	removeProduct,
 	searchProducts
 } from '../models/products.model'
+import { IProductEditData } from '../types/types'
 
 export const productsRouter = Router()
 
@@ -80,13 +81,12 @@ productsRouter.get(
 
 productsRouter.post(
 	'/save/:id',
-	async (
-		req: Request<{ id: string }, {}, { title: string }>,
-		res: Response
-	) => {
-		console.log(req.headers['content-type'])
-		console.log(req.params.id)
-		console.log(req.body.title)
-		res.send('OK')
+	async (req: Request<{ id: string }, {}, IProductEditData>, res: Response) => {
+		try {
+			const updatedProduct = await updateProduct(req.params.id, req.body)
+			res.send('OK')
+		} catch (e) {
+			throwServerError(res, e)
+		}
 	}
 )
