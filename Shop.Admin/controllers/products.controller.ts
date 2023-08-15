@@ -12,13 +12,9 @@ import {
 } from '../models/products.model'
 import { IProductEditData } from '../types/types'
 
-export const productsRouter = Router()
+import { throwServerError } from './helper'
 
-const throwServerError = (res: Response, e: Error) => {
-	console.debug(e.message)
-	res.status(500)
-	res.send('Something went wrong')
-}
+export const productsRouter = Router()
 
 productsRouter.get('/', async (req: Request, res: Response) => {
 	try {
