@@ -70,6 +70,12 @@ productsRouter.route('/search').get(
 	asyncHandler(
 		async (req: Request<{}, {}, {}, IProductSearchFilter>, res: Response) => {
 			try {
+				if (!Object.keys(req.query).length) {
+					res.status(400)
+					res.send('Filter is empty')
+					return
+				}
+
 				const [query, values] = getProductsFilterQuery(req.query)
 				const [rows] = await connection.query<IProductEntity[]>(query, values)
 

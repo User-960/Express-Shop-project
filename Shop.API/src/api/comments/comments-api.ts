@@ -1,6 +1,7 @@
 import { IComment } from '@Shared/types/types'
 import { Request, Response, Router } from 'express'
 import asyncHandler from 'express-async-handler'
+import { param, validationResult } from 'express-validator'
 import { ResultSetHeader } from 'mysql2'
 import { v4 as generateId } from 'uuid'
 
@@ -38,9 +39,18 @@ commentsRouter.route('/').get(
 // @desc    Get one comment by id
 // @route   GET /api/comments/:id
 // @access  Public
-commentsRouter.route('/:id').get(
-	asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
+commentsRouter.get(
+	'/:id',
+	[param('id').isUUID().withMessage('Comment id is not UUID')],
+	async (req: Request<{ id: string }>, res: Response) => {
 		try {
+			const errors = validationResult(req)
+			if (!errors.isEmpty()) {
+				res.status(400)
+				res.json({ errors: errors.array() })
+				return
+			}
+
 			const [rows] = await connection.query<ICommentEntity[]>(
 				'SELECT * FROM comments WHERE comment_id = ?',
 				[req.params.id]
@@ -59,7 +69,7 @@ commentsRouter.route('/:id').get(
 			res.status(500)
 			res.send('Something went wrong')
 		}
-	})
+	}
 )
 
 // @desc    Create new comment
