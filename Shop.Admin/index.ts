@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import express, { Express } from 'express'
 import layouts from 'express-ejs-layouts'
 
+import { authRouter } from './controllers/auth.controller'
 import { productsRouter } from './controllers/products.controller'
 
 export default function (): Express {
@@ -16,6 +17,7 @@ export default function (): Express {
 
 	app.use(express.static(__dirname + '/public'))
 
+	app.use('/auth', authRouter)
 	app.use('/', productsRouter)
 
 	return app
