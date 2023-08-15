@@ -7,7 +7,8 @@ import {
 	getProduct,
 	getProducts,
 	removeProduct,
-	searchProducts
+	searchProducts,
+	updateProduct
 } from '../models/products.model'
 import { IProductEditData } from '../types/types'
 
@@ -83,8 +84,8 @@ productsRouter.post(
 	'/save/:id',
 	async (req: Request<{ id: string }, {}, IProductEditData>, res: Response) => {
 		try {
-			const updatedProduct = await updateProduct(req.params.id, req.body)
-			res.send('OK')
+			await updateProduct(req.params.id, req.body)
+			res.redirect(`/${ADMIN_PATH}/${req.params.id}`)
 		} catch (e) {
 			throwServerError(res, e)
 		}
