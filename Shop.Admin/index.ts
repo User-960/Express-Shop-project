@@ -1,12 +1,22 @@
 import bodyParser from 'body-parser'
 import express, { Express } from 'express'
 import layouts from 'express-ejs-layouts'
+import session from 'express-session'
 
 import { authRouter } from './controllers/auth.controller'
 import { productsRouter } from './controllers/products.controller'
 
 export default function (): Express {
 	const app = express()
+
+	app.use(
+		session({
+			secret: process.env.SESSION_SECRET,
+			saveUninitialized: false,
+			resave: false
+		})
+	)
+
 	app.use(express.json())
 	app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -16,6 +26,8 @@ export default function (): Express {
 	app.use(layouts)
 
 	app.use(express.static(__dirname + '/public'))
+
+	// app.use(validateSession)
 
 	app.use('/auth', authRouter)
 	app.use('/', productsRouter)
