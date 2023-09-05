@@ -14,7 +14,7 @@ The project implemented authentication for users with username and password, ser
 ## To clone repository
 
 ```shell
-https://github.com/User-960/Shop-project.git
+https://github.com/User-960/Express-Shop-project.git
 ```
 
 ## Available Scripts
